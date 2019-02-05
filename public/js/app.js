@@ -1812,8 +1812,13 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
-  props: ['title', 'content'],
+  props: ['title', 'content', 'post'],
   mounted: function mounted() {
     console.log('Component post mounted.');
   }
@@ -36736,6 +36741,18 @@ var render = function() {
                 _vm._s(_vm.content) +
                 "\n                "
             )
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "links" }, [
+            _c("span", { staticClass: "subtitle" }, [
+              _vm._v("Created at  : " + _vm._s(_vm.post.created_at))
+            ]),
+            _c("br"),
+            _vm._v(" "),
+            _c("span", { staticClass: "subtitle" }, [
+              _vm._v("Updated at : " + _vm._s(_vm.post.updated_at))
+            ]),
+            _c("br")
           ])
         ])
       ])

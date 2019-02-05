@@ -8,6 +8,11 @@
                     <div class="card-body">
                        {{content}}
                     </div>
+                    <div class="links">
+                        <span class="subtitle">Created at  : {{post.created_at}}</span><br/>
+                        <span class="subtitle">Updated at : {{post.updated_at}}</span><br/>
+                    </div>
+
                 </div>
             </div>
         </div>
@@ -16,7 +21,7 @@
 
 <script>
     export default {
-        props : ['title','content'],
+        props : ['title','content','post'],
         mounted() {
             console.log('Component post mounted.')
         }
