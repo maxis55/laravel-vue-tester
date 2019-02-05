@@ -85,7 +85,7 @@
                 </div>
 
                 <div id="app">
-                    <example-component></example-component>
+                    <post :title="'This is post title'" :content="'This is post content'"></post>
                 </div>
             </div>
         </div>
