@@ -86,9 +86,7 @@
 
                 <div id="app">
                     <post
-                            :title="'This is post title'"
-                            :content="'This is post content'"
-                            :post="{{json_encode(['created_at'=>\Carbon\Carbon::yesterday()->format('d/m/Y'),'updated_at'=>\Carbon\Carbon::now()->format('d/m/Y')])}}"
+
                     ></post>
                 </div>
             </div>

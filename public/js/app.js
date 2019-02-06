@@ -1820,7 +1820,25 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 /* harmony default export */ __webpack_exports__["default"] = ({
-  props: ['title', 'content', 'post'],
+  data: function data() {
+    return {
+      posts: [],
+      endpoint: 'api/posts'
+    };
+  },
+  created: function created() {
+    this.fetch();
+  },
+  methods: {
+    fetch: function fetch() {
+      var _this = this;
+
+      axios.get(this.endpoint).then(function (_ref) {
+        var data = _ref.data;
+        _this.posts = data;
+      });
+    }
+  },
   mounted: function mounted() {
     console.log('Component post mounted.');
   }
@@ -36731,35 +36749,42 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "container" }, [
-    _c("div", { staticClass: "row justify-content-center" }, [
-      _c("div", { staticClass: "col-md-8" }, [
-        _c("div", { staticClass: "card" }, [
-          _c("h2", { staticClass: "card-header" }, [_vm._v(_vm._s(_vm.title))]),
-          _vm._v(" "),
-          _c("div", { staticClass: "card-body" }, [
-            _vm._v(
-              "\n                   " +
-                _vm._s(_vm.content) +
-                "\n                "
-            )
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "links" }, [
-            _c("span", { staticClass: "subtitle" }, [
-              _vm._v("Created at  : " + _vm._s(_vm.post.created_at))
+  return _c(
+    "div",
+    { staticClass: "container" },
+    _vm._l(_vm.posts, function(single_post) {
+      return _c("div", { staticClass: "row justify-content-center" }, [
+        _c("div", { staticClass: "col-md-8" }, [
+          _c("div", { staticClass: "card" }, [
+            _c("h2", { staticClass: "card-header" }, [
+              _vm._v(_vm._s(single_post.title))
             ]),
-            _c("br"),
             _vm._v(" "),
-            _c("span", { staticClass: "subtitle" }, [
-              _vm._v("Updated at : " + _vm._s(_vm.post.updated_at))
+            _c("div", { staticClass: "card-body" }, [
+              _vm._v(
+                "\n                   " +
+                  _vm._s(single_post.content) +
+                  "\n                "
+              )
             ]),
-            _c("br")
+            _vm._v(" "),
+            _c("div", { staticClass: "links" }, [
+              _c("span", { staticClass: "subtitle" }, [
+                _vm._v("Created at  : " + _vm._s(single_post.created_at))
+              ]),
+              _c("br"),
+              _vm._v(" "),
+              _c("span", { staticClass: "subtitle" }, [
+                _vm._v("Updated at : " + _vm._s(single_post.updated_at))
+              ]),
+              _c("br")
+            ])
           ])
         ])
       ])
-    ])
-  ])
+    }),
+    0
+  )
 }
 var staticRenderFns = []
 render._withStripped = true
