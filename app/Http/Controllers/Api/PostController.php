@@ -17,6 +17,6 @@ class PostController extends Controller
      */
     public function index()
     {
-        return response(Post::latest()->limit(5)->get()->jsonSerialize(), Response::HTTP_OK);
+        return response(Post::latest()->limit(5)->get(), Response::HTTP_OK);
     }
 }
