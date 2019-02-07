@@ -9,8 +9,8 @@
                        {{single_post.content}}
                     </div>
                     <div class="links">
-                        <span class="subtitle">Created at  : {{single_post.created_at}}</span><br/>
-                        <span class="subtitle">Updated at : {{single_post.updated_at}}</span><br/>
+                        <span class="subtitle">Created  : {{single_post.date}}</span><br/>
+
                     </div>
 
                 </div>
@@ -39,7 +39,7 @@
                 axios.get(this.endpoint)
                     .then(
                         ({data}) => {
-                            this.posts = data;
+                            this.posts = data.data;
                         }
                     );
             },
@@ -50,3 +50,9 @@
         }
     }
 </script>
+
+<style scoped>
+    .row:nth-child(odd){
+        background-color: bisque;
+    }
+</style>

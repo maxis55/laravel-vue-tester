@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Http\Resources\PostResource;
 use App\Post;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -17,6 +18,11 @@ class PostController extends Controller
      */
     public function index()
     {
-        return response(Post::latest()->limit(5)->get(), Response::HTTP_OK);
+
+        return PostResource::collection(Post::paginate(5));
+    }
+
+    public function show(Post $post){
+        return new PostResource($post);
     }
 }

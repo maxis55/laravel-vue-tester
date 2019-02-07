@@ -18,4 +18,4 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 Route::resource('posts', 'Api\PostController')
-    ->only(['index']);
+    ->only(['index','show']);
