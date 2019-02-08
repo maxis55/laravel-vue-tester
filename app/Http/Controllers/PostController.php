@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\PostResource;
 use App\Post;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -58,7 +59,7 @@ class PostController extends Controller
      */
     public function edit(Post $post)
     {
-        //
+        return view('posts/edit',['post'=>new PostResource($post)]);
     }
 
     /**

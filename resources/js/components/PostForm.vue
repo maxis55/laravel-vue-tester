@@ -58,7 +58,7 @@
                 }
             };
         },
-
+        props : ['post'],
         methods: {
             onSubmit() {
                 this.saved = false;

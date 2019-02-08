@@ -1854,6 +1854,7 @@ __webpack_require__.r(__webpack_exports__);
       }
     };
   },
+  props: ['post'],
   methods: {
     onSubmit: function onSubmit() {
       var _this = this;
