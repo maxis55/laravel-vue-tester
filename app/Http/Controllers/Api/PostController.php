@@ -19,7 +19,19 @@ class PostController extends Controller
     public function index()
     {
 
-        return PostResource::collection(Post::paginate(5));
+        return PostResource::collection(Post::latest()->paginate(5));
+    }
+
+    public function store(Request $request){
+        $post = $this->validate($request, [
+            'name' => 'required|min:3|max:50',
+            'content' => 'required|min:3'
+        ]);
+
+
+        $created_post = Post::create($post);
+
+        return new PostResource($created_post);
     }
 
     public function show(Post $post){

@@ -1,7 +1,11 @@
-<?php
-/**
- * Created by PhpStorm.
- * User: F055
- * Date: 08.02.2019
- * Time: 11:39
- */
+@extends('layouts/main')
+
+@section('content')
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <post-form></post-form>
+            </div>
+        </div>
+    </div>
+@endsection
