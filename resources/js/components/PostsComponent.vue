@@ -1,21 +1,25 @@
 <template>
-    <div class="container-fluid" >
-        <div class="row justify-content-center" v-for="single_post in posts">
-            <div class="col-md-8">
-                <div class="card">
-                    <h2 class="card-header text-center">{{single_post.name}}</h2>
-
-                    <div class="card-body">
-                       {{single_post.content}}
-                    </div>
-                    <div class="links">
-                        <span class="subtitle">Created  : {{single_post.date}}</span><br/>
-
-                    </div>
+    <div>
+        <div class="panel panel-default" v-for="single_post in posts">
+            <div class="panel-heading">
+               <h2>{{single_post.name}}</h2>
+            </div>
+            <div class="panel-body">
+                <div class="col-md-2">
+                    <!--<div class="thumbnail">-->
+                        <!--<img :src="signature.avatar" :alt="signature.name">-->
+                    <!--</div>-->
+                </div>
+                <p> {{single_post.content}}</p>
+            </div>
+            <div class="panel-footer">
+                Published {{ single_post.date }}
+                <div class="buttons-group">
                     <a href="javascript:void(0)" type="button" class="btn btn-info mb-2">Show</a>
                     <a href="javascript:void(0)" type="button" class="btn btn-warning mb-2">Edit</a>
                     <a href="javascript:void(0)" type="button" class="btn btn-danger mb-2">Delete</a>
                 </div>
+
             </div>
         </div>
     </div>
@@ -46,15 +50,16 @@
                     );
             },
 
-        },
-        mounted() {
-            console.log('Component post mounted.')
         }
     }
 </script>
 
 <style scoped>
-    .row:nth-child(odd){
-        background-color: bisque;
+    .buttons-group{
+        display: flex;
+        flex-direction: column;
+    }
+    .btn{
+        margin-bottom: 2px;
     }
 </style>

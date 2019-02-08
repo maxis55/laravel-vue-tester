@@ -15,7 +15,7 @@ class PostController extends Controller
      */
     public function index()
     {
-        return response(Post::all()->jsonSerialize(), Response::HTTP_OK);
+        return view('posts/index');
     }
 
     /**

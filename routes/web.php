@@ -14,9 +14,7 @@
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/','PostController@index')->name('home');
 
-Route::resource('posts','PostController');
+Route::resource('posts','PostController')->except(['update','destroy','store']);
 
