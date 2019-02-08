@@ -1819,6 +1819,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -37396,13 +37398,13 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "div",
-    { staticClass: "container" },
+    { staticClass: "container-fluid" },
     _vm._l(_vm.posts, function(single_post) {
       return _c("div", { staticClass: "row justify-content-center" }, [
         _c("div", { staticClass: "col-md-8" }, [
           _c("div", { staticClass: "card" }, [
-            _c("h2", { staticClass: "card-header" }, [
-              _vm._v(_vm._s(single_post.title))
+            _c("h2", { staticClass: "card-header text-center" }, [
+              _vm._v(_vm._s(single_post.name))
             ]),
             _vm._v(" "),
             _c("div", { staticClass: "card-body" }, [
@@ -37418,7 +37420,34 @@ var render = function() {
                 _vm._v("Created  : " + _vm._s(single_post.date))
               ]),
               _c("br")
-            ])
+            ]),
+            _vm._v(" "),
+            _c(
+              "a",
+              {
+                staticClass: "btn btn-info mb-2",
+                attrs: { href: "javascript:void(0)", type: "button" }
+              },
+              [_vm._v("Show")]
+            ),
+            _vm._v(" "),
+            _c(
+              "a",
+              {
+                staticClass: "btn btn-warning mb-2",
+                attrs: { href: "javascript:void(0)", type: "button" }
+              },
+              [_vm._v("Edit")]
+            ),
+            _vm._v(" "),
+            _c(
+              "a",
+              {
+                staticClass: "btn btn-danger mb-2",
+                attrs: { href: "javascript:void(0)", type: "button" }
+              },
+              [_vm._v("Delete")]
+            )
           ])
         ])
       ])
