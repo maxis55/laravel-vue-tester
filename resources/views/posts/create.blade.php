@@ -4,7 +4,7 @@
     <div class="container">
         <div class="row">
             <div class="col-md-12">
-                <post-form></post-form>
+                <post-form :new-post="true"></post-form>
             </div>
         </div>
     </div>

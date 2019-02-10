@@ -59,7 +59,7 @@ class PostController extends Controller
      */
     public function edit(Post $post)
     {
-        return view('posts/edit',['post'=>new PostResource($post)]);
+        return view('posts/edit',['post'=>json_encode(new PostResource($post))]);
     }
 
     /**

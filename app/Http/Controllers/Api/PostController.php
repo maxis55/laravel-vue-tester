@@ -34,6 +34,17 @@ class PostController extends Controller
         return new PostResource($created_post);
     }
 
+
+    public function update(Request $request, Post $post)
+    {
+        $this->validate($request, [
+            'name' => 'required|min:3|max:50',
+            'content' => 'required|min:3'
+        ]);
+        $post->update($request->only(['name','content']));
+        $post->save();
+    }
+
     public function show(Post $post){
         return new PostResource($post);
     }

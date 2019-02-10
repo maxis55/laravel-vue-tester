@@ -1848,25 +1848,47 @@ __webpack_require__.r(__webpack_exports__);
     return {
       errors: [],
       saved: false,
-      post: {
-        name: null,
-        content: null
-      }
+      post: this.initialPost
     };
   },
-  props: ['post'],
+  props: {
+    initialPost: {
+      type: Object,
+      default: function _default() {
+        return {
+          id: '',
+          name: '',
+          content: ''
+        };
+      }
+    },
+    newPost: {
+      type: Boolean,
+      default: false
+    }
+  },
   methods: {
     onSubmit: function onSubmit() {
       var _this = this;
 
-      this.saved = false;
-      axios.post('/api/posts', this.post).then(function (_ref) {
-        var data = _ref.data;
-        return _this.setSuccessMessage();
-      }).catch(function (_ref2) {
-        var response = _ref2.response;
-        return _this.setErrors(response);
-      });
+      if (this.newPost) {
+        axios.post('/api/posts', this.post).then(function (_ref) {
+          var data = _ref.data;
+          return _this.setSuccessMessage();
+        }).catch(function (_ref2) {
+          var response = _ref2.response;
+          return _this.setErrors(response);
+        });
+      } else {
+        console.log(this.initialPost.id);
+        axios.patch('/api/posts/' + this.initialPost.id, this.post).then(function (_ref3) {
+          var data = _ref3.data;
+          return _this.setSuccessMessage();
+        }).catch(function (_ref4) {
+          var response = _ref4.response;
+          return _this.setErrors(response);
+        });
+      }
     },
     setErrors: function setErrors(response) {
       this.errors = response.data.errors;
@@ -1877,10 +1899,13 @@ __webpack_require__.r(__webpack_exports__);
     },
     reset: function reset() {
       this.errors = [];
-      this.post = {
-        name: null,
-        content: null
-      };
+
+      if (this.newPost) {
+        this.post = {
+          name: null,
+          content: null
+        };
+      }
     }
   }
 });
@@ -37585,7 +37610,7 @@ var render = function() {
                 "div",
                 {
                   staticClass: "col-md-9",
-                  class: { "has-error": _vm.errors.body }
+                  class: { "has-error": _vm.errors.content }
                 },
                 [
                   _c("textarea", {
@@ -49990,8 +50015,8 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! E:\OSPanel\domains\laravel-vue-tester\resources\js\app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! E:\OSPanel\domains\laravel-vue-tester\resources\sass\app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! E:\Programs\OpenServer\OSPanel\domains\laravel-vue-tester\resources\js\app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! E:\Programs\OpenServer\OSPanel\domains\laravel-vue-tester\resources\sass\app.scss */"./resources/sass/app.scss");
 
 
 /***/ })
