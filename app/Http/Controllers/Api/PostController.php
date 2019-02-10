@@ -48,6 +48,25 @@ class PostController extends Controller
         return new PostResource($post);
     }
 
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  \App\Post  $post
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy(Post $post)
+    {
+
+        try {
+            $post->delete();
+        } catch (\Exception $e) {
+            return response()->json($e->getMessage());
+        }
+
+        return response()->json('Success');
+    }
+
     public function show(Post $post){
         return new PostResource($post);
     }

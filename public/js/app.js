@@ -1951,7 +1951,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -1970,6 +1969,32 @@ __webpack_require__.r(__webpack_exports__);
         var data = _ref.data;
         _this.posts = data.data;
       });
+    },
+    deletePost: function deletePost(id) {
+      var _this2 = this;
+
+      if (confirm('Are you sure you want to delete this post?')) {
+        axios.delete(this.endpoint + '/' + id).then(function (_ref2) {
+          var data = _ref2.data;
+
+          if ('Success' === data) {
+            _this2.removePost(id);
+          } else {
+            alert(data);
+          }
+        });
+      }
+    },
+    removePost: function removePost(id) {
+      this.posts = _.remove(this.posts, function (post) {
+        return post.id !== id;
+      });
+    },
+    showPost: function showPost(post) {
+      // it seems just setting object's property is not enough to update DOM
+      // so need to use vm.$set OR update another vm property
+      // that is not child of array/object prop
+      this.$set(post, 'full_text', !post.full_text);
     }
   }
 });
@@ -6247,7 +6272,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "\n.buttons-group[data-v-38048495]{\n    display: flex;\n    flex-direction: column;\n}\n.btn[data-v-38048495]{\n    margin-bottom: 2px;\n}\n.panel-body p[data-v-38048495]{\n    height:50px;\n    overflow: hidden;\n}\n", ""]);
+exports.push([module.i, "\n.buttons-group[data-v-38048495]{\n    display: flex;\n    flex-direction: column;\n}\n.btn[data-v-38048495]{\n    margin-bottom: 2px;\n}\n.panel-body p[data-v-38048495]{\n    height:50px;\n    overflow: hidden;\n}\n.panel-body.full_text p[data-v-38048495]{\n    height: auto;\n}\n\n", ""]);
 
 // exports
 
@@ -37708,22 +37733,28 @@ var render = function() {
           _vm._v("Published " + _vm._s(single_post.date) + "\n        ")
         ]),
         _vm._v(" "),
-        _c("div", { staticClass: "panel-body" }, [
-          _c("p", [_vm._v(" " + _vm._s(single_post.content))])
-        ]),
+        _c(
+          "div",
+          {
+            staticClass: "panel-body",
+            class: { full_text: single_post.full_text }
+          },
+          [_c("p", [_vm._v(" " + _vm._s(single_post.content))])]
+        ),
         _vm._v(" "),
         _c("div", { staticClass: "panel-footer" }, [
           _c("div", { staticClass: "buttons-group" }, [
-            _c("a", {
-              staticClass: "btn btn-info mb-2",
-              attrs: { href: "posts/" + single_post.id + "/edit" }
-            }),
-            _vm._v(" "),
             _c(
               "a",
               {
                 staticClass: "btn btn-info mb-2",
-                attrs: { href: "javascript:void(0)", type: "button" }
+                attrs: { href: "javascript:void(0)", type: "button" },
+                on: {
+                  click: function($event) {
+                    $event.preventDefault()
+                    return _vm.showPost(single_post)
+                  }
+                }
               },
               [_vm._v("Show")]
             ),
@@ -37732,7 +37763,10 @@ var render = function() {
               "a",
               {
                 staticClass: "btn btn-warning mb-2",
-                attrs: { href: "javascript:void(0)", type: "button" }
+                attrs: {
+                  href: "/posts/" + single_post.id + "/edit",
+                  type: "button"
+                }
               },
               [_vm._v("Edit")]
             ),
@@ -37741,7 +37775,13 @@ var render = function() {
               "a",
               {
                 staticClass: "btn btn-danger mb-2",
-                attrs: { href: "javascript:void(0)", type: "button" }
+                attrs: { href: "javascript:void(0)", type: "button" },
+                on: {
+                  click: function($event) {
+                    $event.preventDefault()
+                    return _vm.deletePost(single_post.id)
+                  }
+                }
               },
               [_vm._v("Delete")]
             )
