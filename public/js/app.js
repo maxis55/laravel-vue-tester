@@ -1856,7 +1856,6 @@ __webpack_require__.r(__webpack_exports__);
       type: Object,
       default: function _default() {
         return {
-          id: '',
           name: '',
           content: ''
         };
@@ -1864,26 +1863,26 @@ __webpack_require__.r(__webpack_exports__);
     },
     newPost: {
       type: Boolean,
-      default: false
+      default: 'edit' !== window.location.href.split('/').pop()
     }
   },
   methods: {
     onSubmit: function onSubmit() {
       var _this = this;
 
+      //if set variable that its new post, or if link doesn't have edit on the end
       if (this.newPost) {
         axios.post('/api/posts', this.post).then(function (_ref) {
           var data = _ref.data;
-          return _this.setSuccessMessage();
+          return _this.setSuccessMessage(data);
         }).catch(function (_ref2) {
           var response = _ref2.response;
           return _this.setErrors(response);
         });
       } else {
-        console.log(this.initialPost.id);
         axios.patch('/api/posts/' + this.initialPost.id, this.post).then(function (_ref3) {
           var data = _ref3.data;
-          return _this.setSuccessMessage();
+          return _this.setSuccessMessage(data);
         }).catch(function (_ref4) {
           var response = _ref4.response;
           return _this.setErrors(response);
@@ -1891,9 +1890,12 @@ __webpack_require__.r(__webpack_exports__);
       }
     },
     setErrors: function setErrors(response) {
+      this.saved = false;
       this.errors = response.data.errors;
     },
-    setSuccessMessage: function setSuccessMessage() {
+    setSuccessMessage: function setSuccessMessage(data) {
+      //set current post to answered post in case there is changes on back-end
+      this.post = data;
       this.reset();
       this.saved = true;
     },

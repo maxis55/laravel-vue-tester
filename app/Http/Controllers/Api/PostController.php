@@ -23,11 +23,11 @@ class PostController extends Controller
     }
 
     public function store(Request $request){
+
         $post = $this->validate($request, [
             'name' => 'required|min:3|max:50',
             'content' => 'required|min:3'
         ]);
-
 
         $created_post = Post::create($post);
 
@@ -41,8 +41,11 @@ class PostController extends Controller
             'name' => 'required|min:3|max:50',
             'content' => 'required|min:3'
         ]);
+
         $post->update($request->only(['name','content']));
         $post->save();
+
+        return new PostResource($post);
     }
 
     public function show(Post $post){

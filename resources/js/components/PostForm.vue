@@ -60,7 +60,6 @@
                 type:Object,
                 default:function(){
                     return {
-                        id:'',
                         name:'',
                         content:'',
                     }
@@ -68,37 +67,40 @@
             },
             newPost:{
                 type:Boolean,
-                default:false
+                default:'edit' !== window.location.href.split('/').pop()
             }
         },
         methods: {
             onSubmit() {
-
-                if(this.newPost){
+                //if set variable that its new post, or if link doesn't have edit on the end
+                if( this.newPost ){
                     axios.post('/api/posts', this.post)
-                        .then(({data}) => this.setSuccessMessage())
+                        .then(({data}) => this.setSuccessMessage(data))
                         .catch(({response}) => this.setErrors(response));
                 }else{
-                    console.log(this.initialPost.id);
                     axios.patch('/api/posts/'+this.initialPost.id, this.post)
-                        .then(({data}) => this.setSuccessMessage())
+                        .then(({data}) => this.setSuccessMessage(data))
                         .catch(({response}) => this.setErrors(response));
                 }
 
             },
 
             setErrors(response) {
+                this.saved=false;
                 this.errors = response.data.errors;
             },
 
-            setSuccessMessage() {
+            setSuccessMessage(data) {
+                //set current post to answered post in case there is changes on back-end
+                this.post=data;
+
                 this.reset();
                 this.saved = true;
             },
 
             reset() {
                 this.errors = [];
-                if(this.newPost){
+                if( this.newPost ){
                     this.post = {name: null, content: null};
                 }
             }
