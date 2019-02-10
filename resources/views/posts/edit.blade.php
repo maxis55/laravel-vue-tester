@@ -4,7 +4,7 @@
     <div class="container">
         <div class="row">
             <div class="col-md-12">
-                <post-form :initial-post="{{$post}}"></post-form>
+                <post-form :title="'Edit post'" :initial-post="{{$post}}"></post-form>
             </div>
         </div>
     </div>

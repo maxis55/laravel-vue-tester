@@ -1864,6 +1864,10 @@ __webpack_require__.r(__webpack_exports__);
     newPost: {
       type: Boolean,
       default: 'edit' !== window.location.href.split('/').pop()
+    },
+    title: {
+      type: String,
+      default: 'Create post'
     }
   },
   methods: {
@@ -1923,6 +1927,7 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+//
 //
 //
 //
@@ -37543,7 +37548,7 @@ var render = function() {
         [
           _c("fieldset", [
             _c("legend", { staticClass: "text-center" }, [
-              _vm._v("Create post")
+              _vm._v(_vm._s(_vm.title))
             ]),
             _vm._v(" "),
             _c("div", { staticClass: "form-group" }, [
@@ -37605,7 +37610,7 @@ var render = function() {
                   staticClass: "col-md-3 control-label",
                   attrs: { for: "body" }
                 },
-                [_vm._v("Your message")]
+                [_vm._v("Content")]
               ),
               _vm._v(" "),
               _c(
@@ -37707,49 +37712,47 @@ var render = function() {
           _c("p", [_vm._v(" " + _vm._s(single_post.content))])
         ]),
         _vm._v(" "),
-        _vm._m(0, true)
+        _c("div", { staticClass: "panel-footer" }, [
+          _c("div", { staticClass: "buttons-group" }, [
+            _c("a", {
+              staticClass: "btn btn-info mb-2",
+              attrs: { href: "posts/" + single_post.id + "/edit" }
+            }),
+            _vm._v(" "),
+            _c(
+              "a",
+              {
+                staticClass: "btn btn-info mb-2",
+                attrs: { href: "javascript:void(0)", type: "button" }
+              },
+              [_vm._v("Show")]
+            ),
+            _vm._v(" "),
+            _c(
+              "a",
+              {
+                staticClass: "btn btn-warning mb-2",
+                attrs: { href: "javascript:void(0)", type: "button" }
+              },
+              [_vm._v("Edit")]
+            ),
+            _vm._v(" "),
+            _c(
+              "a",
+              {
+                staticClass: "btn btn-danger mb-2",
+                attrs: { href: "javascript:void(0)", type: "button" }
+              },
+              [_vm._v("Delete")]
+            )
+          ])
+        ])
       ])
     }),
     0
   )
 }
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "panel-footer" }, [
-      _c("div", { staticClass: "buttons-group" }, [
-        _c(
-          "a",
-          {
-            staticClass: "btn btn-info mb-2",
-            attrs: { href: "javascript:void(0)", type: "button" }
-          },
-          [_vm._v("Show")]
-        ),
-        _vm._v(" "),
-        _c(
-          "a",
-          {
-            staticClass: "btn btn-warning mb-2",
-            attrs: { href: "javascript:void(0)", type: "button" }
-          },
-          [_vm._v("Edit")]
-        ),
-        _vm._v(" "),
-        _c(
-          "a",
-          {
-            staticClass: "btn btn-danger mb-2",
-            attrs: { href: "javascript:void(0)", type: "button" }
-          },
-          [_vm._v("Delete")]
-        )
-      ])
-    ])
-  }
-]
+var staticRenderFns = []
 render._withStripped = true
 
 

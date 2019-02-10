@@ -7,7 +7,7 @@
         <div class="well well-sm" id="post-form">
             <form class="form-horizontal" method="post" @submit.prevent="onSubmit">
                 <fieldset>
-                    <legend class="text-center">Create post</legend>
+                    <legend class="text-center">{{title}}</legend>
 
                     <div class="form-group">
                         <label class="col-md-3 control-label" for="name">Name</label>
@@ -23,7 +23,7 @@
 
 
                     <div class="form-group">
-                        <label class="col-md-3 control-label" for="body">Your message</label>
+                        <label class="col-md-3 control-label" for="body">Content</label>
                         <div class="col-md-9" :class="{'has-error': errors.content}">
                                     <textarea class="form-control"
                                               id="body"
@@ -68,6 +68,10 @@
             newPost:{
                 type:Boolean,
                 default:'edit' !== window.location.href.split('/').pop()
+            },
+            title:{
+                type:String,
+                default:'Create post'
             }
         },
         methods: {
