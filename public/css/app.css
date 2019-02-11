@@ -8294,6 +8294,10 @@ nav.navbar-findcond ul.dropdown-menu > li > a:hover {
   color: #fff;
 }
 
+.row {
+  margin-bottom: 20px;
+}
+
 button[type=submit] {
   border-radius: 2px;
   color: #fff;

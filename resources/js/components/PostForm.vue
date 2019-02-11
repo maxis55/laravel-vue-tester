@@ -52,7 +52,8 @@
             return {
                 errors: [],
                 saved: false,
-                post: this.initialPost
+                post: this.initialPost,
+                endpoint: '/api/posts',
             };
         },
         props:{
@@ -78,11 +79,11 @@
             onSubmit() {
                 //if set variable that its new post, or if link doesn't have edit on the end
                 if( this.newPost ){
-                    axios.post('/api/posts', this.post)
+                    axios.post(this.endpoint, this.post)
                         .then(({data}) => this.setSuccessMessage(data))
                         .catch(({response}) => this.setErrors(response));
                 }else{
-                    axios.patch('/api/posts/'+this.initialPost.id, this.post)
+                    axios.patch(this.endpoint+'/'+this.initialPost.id, this.post)
                         .then(({data}) => this.setSuccessMessage(data))
                         .catch(({response}) => this.setErrors(response));
                 }
@@ -96,7 +97,7 @@
 
             setSuccessMessage(data) {
                 //set current post to answered post in case there is changes on back-end
-                this.post=data;
+                this.post=data.data;
 
                 this.reset();
                 this.saved = true;
@@ -104,6 +105,7 @@
 
             reset() {
                 this.errors = [];
+                console.log(this.newPost);
                 if( this.newPost ){
                     this.post = {name: null, content: null};
                 }

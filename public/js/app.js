@@ -1815,7 +1815,8 @@ __webpack_require__.r(__webpack_exports__);
     return {
       errors: [],
       saved: false,
-      post: this.initialPost
+      post: this.initialPost,
+      endpoint: '/api/posts'
     };
   },
   props: {
@@ -1843,7 +1844,7 @@ __webpack_require__.r(__webpack_exports__);
 
       //if set variable that its new post, or if link doesn't have edit on the end
       if (this.newPost) {
-        axios.post('/api/posts', this.post).then(function (_ref) {
+        axios.post(this.endpoint, this.post).then(function (_ref) {
           var data = _ref.data;
           return _this.setSuccessMessage(data);
         }).catch(function (_ref2) {
@@ -1851,7 +1852,7 @@ __webpack_require__.r(__webpack_exports__);
           return _this.setErrors(response);
         });
       } else {
-        axios.patch('/api/posts/' + this.initialPost.id, this.post).then(function (_ref3) {
+        axios.patch(this.endpoint + '/' + this.initialPost.id, this.post).then(function (_ref3) {
           var data = _ref3.data;
           return _this.setSuccessMessage(data);
         }).catch(function (_ref4) {
@@ -1866,12 +1867,13 @@ __webpack_require__.r(__webpack_exports__);
     },
     setSuccessMessage: function setSuccessMessage(data) {
       //set current post to answered post in case there is changes on back-end
-      this.post = data;
+      this.post = data.data;
       this.reset();
       this.saved = true;
     },
     reset: function reset() {
       this.errors = [];
+      console.log(this.newPost);
 
       if (this.newPost) {
         this.post = {
@@ -1921,12 +1923,22 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
       posts: [],
-      endpoint: 'api/posts'
+      next_page: 1,
+      next_page_link: '',
+      last_page: 2,
+      endpoint: '/api/posts'
     };
+  },
+  computed: {
+    hideMore: function hideMore() {
+      return this.next_page > this.last_page;
+    }
   },
   created: function created() {
     this.fetch();
@@ -1935,9 +1947,13 @@ __webpack_require__.r(__webpack_exports__);
     fetch: function fetch() {
       var _this = this;
 
-      axios.get(this.endpoint).then(function (_ref) {
+      axios.get(this.endpoint + '?page=' + this.next_page).then(function (_ref) {
         var data = _ref.data;
-        _this.posts = data.data;
+        var vm = _this;
+        vm.posts = vm.posts.concat(data.data);
+        vm.last_page = data.meta.last_page;
+        vm.next_page_link = data.links.next;
+        vm.next_page = data.meta.current_page + 1;
       });
     },
     deletePost: function deletePost(id) {
@@ -1965,6 +1981,9 @@ __webpack_require__.r(__webpack_exports__);
       // so need to use vm.$set OR update another vm property
       // that is not child of array/object prop
       this.$set(post, 'full_text', !post.full_text);
+    },
+    loadMore: function loadMore() {
+      this.fetch();
     }
   }
 });
@@ -6242,7 +6261,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "\n.buttons-group[data-v-38048495]{\n    display: flex;\n    flex-direction: column;\n}\n.btn[data-v-38048495]{\n    margin-bottom: 2px;\n}\n.panel-body p[data-v-38048495]{\n    height:50px;\n    overflow: hidden;\n}\n.panel-body.full_text p[data-v-38048495]{\n    height: auto;\n}\n\n", ""]);
+exports.push([module.i, "\n.buttons-group[data-v-38048495]{\n    display: flex;\n    flex-direction: column;\n}\n.btn[data-v-38048495]{\n    margin-bottom: 2px;\n}\n.panel-body p[data-v-38048495]{\n    height:50px;\n    min-height: 50px;\n    overflow: hidden;\n}\n.panel-body.full_text p[data-v-38048495]{\n    height: auto;\n}\n\n", ""]);
 
 // exports
 
@@ -37714,21 +37733,22 @@ var render = function() {
         ])
       }),
       _vm._v(" "),
-      _vm._m(0)
+      _c(
+        "div",
+        { staticClass: "text-center", class: { hidden: _vm.hideMore } },
+        [
+          _c(
+            "button",
+            { staticClass: "btn btn-primary", on: { click: _vm.loadMore } },
+            [_vm._v("Load more")]
+          )
+        ]
+      )
     ],
     2
   )
 }
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "text-center mb-20" }, [
-      _c("button", [_vm._v("Load more")])
-    ])
-  }
-]
+var staticRenderFns = []
 render._withStripped = true
 
 

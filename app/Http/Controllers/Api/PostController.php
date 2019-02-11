@@ -19,7 +19,7 @@ class PostController extends Controller
     public function index()
     {
 
-        return PostResource::collection(Post::latest()->paginate(5));
+        return PostResource::collection(Post::latest()->paginate(20));
     }
 
     public function store(Request $request){

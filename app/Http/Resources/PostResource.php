@@ -16,7 +16,7 @@ class PostResource extends Resource
     {
         return [
             'id'=>$this->id,
-            'name'=>$this->name,
+            'name'=>$this->name.$this->id,
             'content'=>$this->content,
             'date'=>$this->created_at->diffForHumans()
         ];
