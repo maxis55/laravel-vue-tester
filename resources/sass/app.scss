@@ -59,19 +59,9 @@ nav.navbar-findcond {
   margin-bottom: 20px;
 }
 button[type="submit"] {
-  border-radius: 2px;
   color: $color_3;
   background: #e74c3c;
-  padding: 10px;
-  font-size: 13px;
-  text-transform: uppercase;
-  margin: 2px;
-  font-weight: 400;
-  text-align: center;
-  border: none;
-  cursor: pointer;
-  width: 10%;
-  transition: background .5s;
+  border-color: #e74c3c;
   &:hover {
     background: #2f3c4e;
   }
