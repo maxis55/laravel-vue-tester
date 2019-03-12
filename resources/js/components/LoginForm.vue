@@ -95,29 +95,10 @@
                     .catch((error) => {
                         this.$store.commit('loginFailed', error);
                     });
-
-                //if set variable that its new post, or if link doesn't have edit on the end
-//                axios.post(this.endpoint, this.user)
-//                    .then(({data}) => this.setSuccessMessage(data))
-//                    .catch(({response}) => this.setErrors(response));
             },
-
-            setErrors(response) {
-                this.errors = response.data.errors;
-            },
-
-            setSuccessMessage(data) {
-                this.errors = [];
-                if (data.message === 'success') {
-                    console.log(data);
-//                    location.reload();
-                }
-            },
-
         },
         computed:{
             authError(){
-//                console.log(this.$store.getters.authError);
                return this.$store.getters.authError;
             }
         }
