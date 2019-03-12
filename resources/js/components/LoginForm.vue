@@ -9,11 +9,11 @@
                             <label for="email" class="col-md-4 col-form-label text-md-right">E-mail</label>
 
                             <div class="col-md-6">
-                                <input id="email" type="email" :class="{'is-invalid':errors.email}" class="form-control"
+                                <input id="email" type="email" :class="{'is-invalid':authError.email}" class="form-control"
                                        v-model="user.email" value="" required autofocus>
 
-                                <span v-if="errors.email" class="invalid-feedback" role="alert">
-                                        <strong>{{ errors.email[0] }}</strong>
+                                <span v-if="authError.email" class="invalid-feedback" role="alert">
+                                        <strong>{{ authError.email[0] }}</strong>
                                 </span>
                             </div>
                         </div>
@@ -22,11 +22,11 @@
                             <label for="password" class="col-md-4 col-form-label text-md-right">Password</label>
 
                             <div class="col-md-6">
-                                <input id="password" type="password" :class="{'is-invalid':errors.password}"
+                                <input id="password" type="password" :class="{'is-invalid':authError.password}"
                                        class="form-control" v-model="user.password" required>
 
                                 <span v-if="errors.password" class="invalid-feedback" role="alert">
-                                        <strong>{{ errors.password[0] }}</strong>
+                                        <strong>{{ authError.password[0] }}</strong>
                                 </span>
 
                             </div>
@@ -83,12 +83,15 @@
         },
         methods: {
             onSubmit() {
+
                 this.$store.dispatch('login');
+
                 login(this.$data.user)
                     .then((res) => {
                         this.$store.commit('loginSuccess', res);
                         this.$router.push({path: '/'})
                     })
+
                     .catch((error) => {
                         this.$store.commit('loginFailed', error);
                     });
@@ -111,6 +114,12 @@
                 }
             },
 
+        },
+        computed:{
+            authError(){
+//                console.log(this.$store.getters.authError);
+               return this.$store.getters.authError;
+            }
         }
     }
 </script>

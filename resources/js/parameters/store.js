@@ -7,7 +7,7 @@ export default {
         currentUser: user,
         isLoggedIn: !!user,
         loading: false,
-        auth_error: null,
+        auth_error: [],
         posts: []
     },
     getters: {
@@ -30,19 +30,21 @@ export default {
     mutations: {
         login(state){
             state.loading = true;
-            state.auth_error = null;
+            state.auth_error = [];
         },
         loginSuccess(state, payload){
-            state.auth_error = null;
+            state.auth_error = [];
             state.isLoggedIn = true;
             state.loading=false;
-            state.currentUser=Object.assign({},payload.user,{token:payload.access_token});
+
+            state.currentUser=Object.assign({},payload.user,{access_token:payload.access_token});
 
             localStorage.setItem('user',JSON.stringify(state.currentUser));
         },
-        failedLogin(state,payload){
+        loginFailed(state,payload){
             state.loading=false;
-            state.auth_error=payload.error;
+
+            state.auth_error=payload.errors;
         },
         logout(state){
             localStorage.removeItem('user');

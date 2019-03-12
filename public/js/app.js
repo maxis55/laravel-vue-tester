@@ -1936,6 +1936,12 @@ __webpack_require__.r(__webpack_exports__);
         console.log(data); //                    location.reload();
       }
     }
+  },
+  computed: {
+    authError: function authError() {
+      //                console.log(this.$store.getters.authError);
+      return this.$store.getters.authError;
+    }
   }
 });
 
@@ -37902,7 +37908,7 @@ var render = function() {
                       }
                     ],
                     staticClass: "form-control",
-                    class: { "is-invalid": _vm.errors.email },
+                    class: { "is-invalid": _vm.authError.email },
                     attrs: {
                       id: "email",
                       type: "email",
@@ -37921,14 +37927,14 @@ var render = function() {
                     }
                   }),
                   _vm._v(" "),
-                  _vm.errors.email
+                  _vm.authError.email
                     ? _c(
                         "span",
                         {
                           staticClass: "invalid-feedback",
                           attrs: { role: "alert" }
                         },
-                        [_c("strong", [_vm._v(_vm._s(_vm.errors.email[0]))])]
+                        [_c("strong", [_vm._v(_vm._s(_vm.authError.email[0]))])]
                       )
                     : _vm._e()
                 ])
@@ -37955,7 +37961,7 @@ var render = function() {
                       }
                     ],
                     staticClass: "form-control",
-                    class: { "is-invalid": _vm.errors.password },
+                    class: { "is-invalid": _vm.authError.password },
                     attrs: { id: "password", type: "password", required: "" },
                     domProps: { value: _vm.user.password },
                     on: {
@@ -37975,7 +37981,11 @@ var render = function() {
                           staticClass: "invalid-feedback",
                           attrs: { role: "alert" }
                         },
-                        [_c("strong", [_vm._v(_vm._s(_vm.errors.password[0]))])]
+                        [
+                          _c("strong", [
+                            _vm._v(_vm._s(_vm.authError.password[0]))
+                          ])
+                        ]
                       )
                     : _vm._e()
                 ])
@@ -54537,7 +54547,7 @@ function login(credentials) {
     axios.post('/api/auth/login', credentials).then(function (response) {
       res(response.data);
     }).catch(function (err) {
-      rej("Wrong email or password");
+      rej(err.response.data);
     });
   });
 }
@@ -54597,7 +54607,7 @@ var user = Object(_helpers_auth__WEBPACK_IMPORTED_MODULE_0__["getLocalUser"])();
     currentUser: user,
     isLoggedIn: !!user,
     loading: false,
-    auth_error: null,
+    auth_error: [],
     posts: []
   },
   getters: {
@@ -54620,20 +54630,20 @@ var user = Object(_helpers_auth__WEBPACK_IMPORTED_MODULE_0__["getLocalUser"])();
   mutations: {
     login: function login(state) {
       state.loading = true;
-      state.auth_error = null;
+      state.auth_error = [];
     },
     loginSuccess: function loginSuccess(state, payload) {
-      state.auth_error = null;
+      state.auth_error = [];
       state.isLoggedIn = true;
       state.loading = false;
       state.currentUser = Object.assign({}, payload.user, {
-        token: payload.access_token
+        access_token: payload.access_token
       });
       localStorage.setItem('user', JSON.stringify(state.currentUser));
     },
-    failedLogin: function failedLogin(state, payload) {
+    loginFailed: function loginFailed(state, payload) {
       state.loading = false;
-      state.auth_error = payload.error;
+      state.auth_error = payload.errors;
     },
     logout: function logout(state) {
       localStorage.removeItem('user');

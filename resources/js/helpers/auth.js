@@ -2,10 +2,11 @@ export function login(credentials) {
     return new Promise((res, rej) => {
         axios.post('/api/auth/login', credentials)
             .then((response) => {
+
                 res(response.data);
             })
-            .catch((err) =>{
-                rej("Wrong email or password");
+            .catch((err) => {
+                rej(err.response.data);
             })
     })
 }
@@ -13,7 +14,7 @@ export function login(credentials) {
 export function getLocalUser() {
     const userStr = localStorage.getItem("user");
 
-    if(!userStr) {
+    if (!userStr) {
         return null;
     }
 
