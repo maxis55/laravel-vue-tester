@@ -1,4 +1,3 @@
-
 /**
  * First we will load all of this project's JavaScript dependencies which
  * includes Vue and other libraries. It is a great starting point when
@@ -6,8 +5,23 @@
  */
 
 require('./bootstrap');
+import Vue  from "vue";
+import VueRouter from "vue-router";
+import Vuex from "vuex";
 
-window.Vue = require('vue');
+import {routes} from "./parameters/routes";
+import MainApp from "./components/Main.vue";
+import Posts from "./components/PostsComponent.vue";
+import PostForm from "./components/PostForm.vue"
+
+
+Vue.use(VueRouter);
+
+const router = new VueRouter({
+    routes,
+    mode:'history'
+});
+
 
 /**
  * The following block of code may be used to automatically register your
@@ -20,8 +34,8 @@ window.Vue = require('vue');
 // const files = require.context('./', true, /\.vue$/i)
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
 
-Vue.component('posts', require('./components/PostsComponent.vue').default);
-Vue.component('post-form', require('./components/PostForm.vue').default);
+// Vue.component('posts', require('./components/PostsComponent.vue').default);
+// Vue.component('post-form', require('./components/PostForm.vue').default);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
@@ -30,5 +44,9 @@ Vue.component('post-form', require('./components/PostForm.vue').default);
  */
 
 const app = new Vue({
-    el: '#app'
+    el: '#app',
+    router,
+    components: {
+        MainApp
+    }
 });
