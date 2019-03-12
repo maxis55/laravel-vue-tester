@@ -9,7 +9,8 @@
                             <label for="email" class="col-md-4 col-form-label text-md-right">E-mail</label>
 
                             <div class="col-md-6">
-                                <input id="email" type="email" :class="{'is-invalid':errors.email}" class="form-control" v-model="user.email" value="" required autofocus>
+                                <input id="email" type="email" :class="{'is-invalid':errors.email}" class="form-control"
+                                       v-model="user.email" value="" required autofocus>
 
                                 <span v-if="errors.email" class="invalid-feedback" role="alert">
                                         <strong>{{ errors.email[0] }}</strong>
@@ -21,7 +22,8 @@
                             <label for="password" class="col-md-4 col-form-label text-md-right">Password</label>
 
                             <div class="col-md-6">
-                                <input id="password" type="password" :class="{'is-invalid':errors.password}" class="form-control" v-model="user.password" required>
+                                <input id="password" type="password" :class="{'is-invalid':errors.password}"
+                                       class="form-control" v-model="user.password" required>
 
                                 <span v-if="errors.password" class="invalid-feedback" role="alert">
                                         <strong>{{ errors.password[0] }}</strong>
@@ -33,7 +35,8 @@
                         <div class="form-group row">
                             <div class="col-md-6 offset-md-4">
                                 <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" id="remember" v-model="user.remember">
+                                    <input class="form-check-input" type="checkbox" id="remember"
+                                           v-model="user.remember">
 
                                     <label class="form-check-label" for="remember">
                                         Remember Me
@@ -50,7 +53,7 @@
 
 
                                 <!--<a class="btn btn-link" href="{{ route('password.request') }}">-->
-                                    <!--Forgot Your Password?-->
+                                <!--Forgot Your Password?-->
                                 <!--</a>-->
 
                             </div>
@@ -63,8 +66,10 @@
 </template>
 
 <script>
+    import {login} from '../helpers/auth'
+
     export default {
-        name:'login-form',
+        name: 'login-form',
         data() {
             return {
                 errors: [],
@@ -72,16 +77,26 @@
                 user: {
                     email: null,
                     password: null,
-                    remember:null,
+                    remember: null,
                 }
             };
         },
         methods: {
             onSubmit() {
+                this.$store.dispatch('login');
+                login(this.$data.user)
+                    .then((res) => {
+                        this.$store.commit('loginSuccess', res);
+                        this.$router.push({path: '/'})
+                    })
+                    .catch((error) => {
+                        this.$store.commit('loginFailed', error);
+                    });
+
                 //if set variable that its new post, or if link doesn't have edit on the end
-                axios.post(this.endpoint, this.user)
-                    .then(({data}) => this.setSuccessMessage(data))
-                    .catch(({response}) => this.setErrors(response));
+//                axios.post(this.endpoint, this.user)
+//                    .then(({data}) => this.setSuccessMessage(data))
+//                    .catch(({response}) => this.setErrors(response));
             },
 
             setErrors(response) {
@@ -89,7 +104,8 @@
             },
 
             setSuccessMessage(data) {
-                if(data.message==='success'){
+                this.errors = [];
+                if (data.message === 'success') {
                     console.log(data);
 //                    location.reload();
                 }

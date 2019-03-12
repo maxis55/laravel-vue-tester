@@ -3,7 +3,10 @@ import LoginForm from '../components/LoginForm.vue';
 export const routes = [
     {
         path: '/',
-        component: Home
+        component: Home,
+        meta:{
+            requiresAuth:true
+        }
     },
     {
         path: '/login',

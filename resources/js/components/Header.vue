@@ -6,28 +6,29 @@
             </div>
             <div class="collapse navbar-collapse" id="navbar">
                 <ul class="nav navbar-nav navbar-right">
-                    <li class="active">
-                        <a href="/posts/create">Create post</a>
-                    </li>
 
-                    <li>
-                        <a href="/home">Home</a>
-                    </li>
-                    <li>
-                        <a href="/logout"
-                           onclick="event.preventDefault();
-                                                     document.getElementById('logout-form').submit();">
-                           Logout
-                        </a>
+                    <template v-if="!currentUser">
+                        <li>
+                            <router-link to="/login">Login</router-link>
+                        </li>
+                        <li>
+                            <router-link to="/register">Register</router-link>
+                        </li>
+                    </template>
+                    <template v-else>
+                        <li>
+                            <router-link to="/posts">Posts</router-link>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a id="navbarDropDown" class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" aria-expanded="false" aria-haspopup="true">
+                                {{currentUser.name}} <span class="caret"></span>
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropDown">
+                                <a href="#" @click.prevent="logout" class="dropdown-item">Logout</a>
+                            </div>
+                        </li>
+                    </template>
 
-                    </li>
-                    <li>
-                        <a href="/login">Login</a>
-                    </li>
-
-                    <li>
-                        <a href="/register">Register</a>
-                    </li>
                 </ul>
             </div>
         </div>
@@ -37,6 +38,16 @@
 <script>
     export default {
         name: 'app-header',
-
+        methods:{
+            logout(){
+                this.$store.commit('logout');
+                this.$router.push('/login');
+            }
+        },
+        computed:{
+            currentUser(){
+                return this.$store.getters.currentUser;
+            }
+        }
     }
 </script>
