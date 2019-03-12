@@ -1,0 +1,100 @@
+<template>
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+
+                <div class="card-body">
+                    <form method="POST" action="/login" @submit.prevent="onSubmit">
+                        <div class="form-group row">
+                            <label for="email" class="col-md-4 col-form-label text-md-right">E-mail</label>
+
+                            <div class="col-md-6">
+                                <input id="email" type="email" :class="{'is-invalid':errors.email}" class="form-control" v-model="user.email" value="" required autofocus>
+
+                                <span v-if="errors.email" class="invalid-feedback" role="alert">
+                                        <strong>{{ errors.email[0] }}</strong>
+                                </span>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label for="password" class="col-md-4 col-form-label text-md-right">Password</label>
+
+                            <div class="col-md-6">
+                                <input id="password" type="password" :class="{'is-invalid':errors.password}" class="form-control" v-model="user.password" required>
+
+                                <span v-if="errors.password" class="invalid-feedback" role="alert">
+                                        <strong>{{ errors.password[0] }}</strong>
+                                </span>
+
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <div class="col-md-6 offset-md-4">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="remember" v-model="user.remember">
+
+                                    <label class="form-check-label" for="remember">
+                                        Remember Me
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group row mb-0">
+                            <div class="col-md-8 offset-md-4">
+                                <button type="submit" class="btn btn-primary">
+                                    Login
+                                </button>
+
+
+                                <!--<a class="btn btn-link" href="{{ route('password.request') }}">-->
+                                    <!--Forgot Your Password?-->
+                                <!--</a>-->
+
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
+
+<script>
+    export default {
+        name:'login-form',
+        data() {
+            return {
+                errors: [],
+                endpoint: '/api/auth/login',
+                user: {
+                    email: null,
+                    password: null,
+                    remember:null,
+                }
+            };
+        },
+        methods: {
+            onSubmit() {
+                //if set variable that its new post, or if link doesn't have edit on the end
+                axios.post(this.endpoint, this.user)
+                    .then(({data}) => this.setSuccessMessage(data))
+                    .catch(({response}) => this.setErrors(response));
+            },
+
+            setErrors(response) {
+                this.errors = response.data.errors;
+            },
+
+            setSuccessMessage(data) {
+                if(data.message==='success'){
+                    console.log(data);
+//                    location.reload();
+                }
+            },
+
+        }
+    }
+</script>

@@ -20,13 +20,18 @@ class AuthController extends Controller
     /**
      * Get a JWT via given credentials.
      *
+     * @param Request $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function login()
+    public function login(Request $request)
     {
-        $credentials = request(['email', 'password']);
+        $request->validate([
+            $this->username() => 'required|string',
+            'password' => 'required|string',
+        ]);
+        $credentials = request([$this->username(), 'password']);
 
-        if (! $token = auth('api')->attempt($credentials)) {
+        if (! $token = auth('api')->attempt($credentials, $request->filled('remember'))) {
             return response()->json(['error' => 'Unauthorized'], 401);
         }
 
@@ -88,5 +93,9 @@ class AuthController extends Controller
      */
     public function guard(){
         return Auth::guard('api');
+    }
+
+    protected function username(){
+        return 'email';
     }
 }
