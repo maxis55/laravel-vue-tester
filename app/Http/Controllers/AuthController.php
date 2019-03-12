@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\ValidationException;
 
 class AuthController extends Controller
 {
@@ -29,10 +30,19 @@ class AuthController extends Controller
             $this->username() => 'required|string',
             'password' => 'required|string',
         ]);
+
         $credentials = request([$this->username(), 'password']);
 
-        if (! $token = auth('api')->attempt($credentials, $request->filled('remember'))) {
-            return response()->json(['error' => 'Unauthorized'], 401);
+        $guard=auth('api');
+
+        if($request->input('remember')){
+            $guard->setTTL(72);
+            // if "remember" is checked, then increase expire time
+            // minutes
+        }
+
+        if (! $token = $guard->attempt($credentials)) {
+            return $this->sendFailedLoginResponse($request);
         }
 
         return $this->respondWithToken($token);
@@ -89,11 +99,20 @@ class AuthController extends Controller
 
 
     /**
-     * @return mixed
+     * Get the failed login response instance.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Symfony\Component\HttpFoundation\Response
+     *
+     * @throws \Illuminate\Validation\ValidationException
      */
-    public function guard(){
-        return Auth::guard('api');
+    protected function sendFailedLoginResponse(Request $request)
+    {
+        throw ValidationException::withMessages([
+            $this->username() => [trans('auth.failed')],
+        ]);
     }
+
 
     protected function username(){
         return 'email';
