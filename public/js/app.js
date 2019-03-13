@@ -1921,25 +1921,11 @@ __webpack_require__.r(__webpack_exports__);
         });
       }).catch(function (error) {
         _this.$store.commit('loginFailed', error);
-      }); //if set variable that its new post, or if link doesn't have edit on the end
-      //                axios.post(this.endpoint, this.user)
-      //                    .then(({data}) => this.setSuccessMessage(data))
-      //                    .catch(({response}) => this.setErrors(response));
-    },
-    setErrors: function setErrors(response) {
-      this.errors = response.data.errors;
-    },
-    setSuccessMessage: function setSuccessMessage(data) {
-      this.errors = [];
-
-      if (data.message === 'success') {
-        console.log(data); //                    location.reload();
-      }
+      });
     }
   },
   computed: {
     authError: function authError() {
-      //                console.log(this.$store.getters.authError);
       return this.$store.getters.authError;
     }
   }
@@ -53986,10 +53972,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue_router__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vue-router */ "./node_modules/vue-router/dist/vue-router.esm.js");
 /* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
 /* harmony import */ var _parameters_routes__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./parameters/routes */ "./resources/js/parameters/routes.js");
-/* harmony import */ var _parameters_store__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./parameters/store */ "./resources/js/parameters/store.js");
-/* harmony import */ var _components_Main_vue__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./components/Main.vue */ "./resources/js/components/Main.vue");
-/* harmony import */ var _components_PostsComponent_vue__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./components/PostsComponent.vue */ "./resources/js/components/PostsComponent.vue");
-/* harmony import */ var _components_PostForm_vue__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./components/PostForm.vue */ "./resources/js/components/PostForm.vue");
+/* harmony import */ var _helpers_init__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./helpers/init */ "./resources/js/helpers/init.js");
+/* harmony import */ var _parameters_store__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./parameters/store */ "./resources/js/parameters/store.js");
+/* harmony import */ var _components_Main_vue__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./components/Main.vue */ "./resources/js/components/Main.vue");
+/* harmony import */ var _components_PostsComponent_vue__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./components/PostsComponent.vue */ "./resources/js/components/PostsComponent.vue");
+/* harmony import */ var _components_PostForm_vue__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./components/PostForm.vue */ "./resources/js/components/PostForm.vue");
 /**
  * First we will load all of this project's JavaScript dependencies which
  * includes Vue and other libraries. It is a great starting point when
@@ -54005,29 +53992,15 @@ __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
 
 
 
+
 vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vue_router__WEBPACK_IMPORTED_MODULE_1__["default"]);
 vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_2__["default"]);
-var store = new vuex__WEBPACK_IMPORTED_MODULE_2__["default"].Store(_parameters_store__WEBPACK_IMPORTED_MODULE_4__["default"]);
+var store = new vuex__WEBPACK_IMPORTED_MODULE_2__["default"].Store(_parameters_store__WEBPACK_IMPORTED_MODULE_5__["default"]);
 var router = new vue_router__WEBPACK_IMPORTED_MODULE_1__["default"]({
   routes: _parameters_routes__WEBPACK_IMPORTED_MODULE_3__["routes"],
   mode: 'history'
 });
-router.beforeEach(function (to, from, next) {
-  var requiresAuth = to.matched.some(function (record) {
-    return record.meta.requiresAuth;
-  });
-  var currentUser = store.state.currentUser;
-
-  if (requiresAuth && !currentUser) {
-    next('/login');
-  } else {
-    if (to.path === '/login' && currentUser) {
-      next('/');
-    } else {
-      next();
-    }
-  }
-});
+Object(_helpers_init__WEBPACK_IMPORTED_MODULE_4__["initialize"])(store, router);
 /**
  * The following block of code may be used to automatically register your
  * Vue components. It will recursively scan this directory for the Vue
@@ -54051,7 +54024,7 @@ var app = new vue__WEBPACK_IMPORTED_MODULE_0___default.a({
   router: router,
   store: store,
   components: {
-    MainApp: _components_Main_vue__WEBPACK_IMPORTED_MODULE_5__["default"]
+    MainApp: _components_Main_vue__WEBPACK_IMPORTED_MODULE_6__["default"]
   }
 });
 
@@ -54072,7 +54045,7 @@ window._ = __webpack_require__(/*! lodash */ "./node_modules/lodash/lodash.js");
  */
 
 try {
-  window.Popper = __webpack_require__(/*! popper.js */ "./node_modules/popper.js/dist/esm/popper.js").default;
+  // window.Popper = require('popper.js').default;
   window.$ = window.jQuery = __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js");
 
   __webpack_require__(/*! bootstrap */ "./node_modules/bootstrap/dist/js/bootstrap.js");
@@ -54559,6 +54532,45 @@ function getLocalUser() {
   }
 
   return JSON.parse(userStr);
+}
+
+/***/ }),
+
+/***/ "./resources/js/helpers/init.js":
+/*!**************************************!*\
+  !*** ./resources/js/helpers/init.js ***!
+  \**************************************/
+/*! exports provided: initialize */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "initialize", function() { return initialize; });
+function initialize(store, router) {
+  router.beforeEach(function (to, from, next) {
+    var requiresAuth = to.matched.some(function (record) {
+      return record.meta.requiresAuth;
+    });
+    var currentUser = store.state.currentUser;
+
+    if (requiresAuth && !currentUser) {
+      next('/login');
+    } else {
+      if (to.path === '/login' && currentUser) {
+        next('/');
+      } else {
+        next();
+      }
+    }
+  });
+  axios.interceptors.response.use(null, function (error) {
+    if (error.resposne.status == 401) {
+      store.commit('logout');
+      router.push('/login');
+    }
+
+    return Promise.reject(error);
+  });
 }
 
 /***/ }),
