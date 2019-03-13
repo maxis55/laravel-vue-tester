@@ -2132,8 +2132,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
+  name: 'posts',
   data: function data() {
     return {
       posts: [],
@@ -2146,16 +2146,23 @@ __webpack_require__.r(__webpack_exports__);
   computed: {
     hideMore: function hideMore() {
       return this.next_page > this.last_page;
+    },
+    currentUser: function currentUser() {
+      return this.$store.getters.currentUser;
     }
   },
-  created: function created() {
+  mounted: function mounted() {
     this.fetch();
   },
   methods: {
     fetch: function fetch() {
       var _this = this;
 
-      axios.get(this.endpoint + '?page=' + this.next_page).then(function (_ref) {
+      axios.get(this.endpoint + '?page=' + this.next_page, {
+        headers: {
+          "Authorization": 'Bearer ' + this.currentUser.access_token
+        }
+      }).then(function (_ref) {
         var data = _ref.data;
         var vm = _this;
         vm.posts = vm.posts.concat(data.data);
@@ -6469,7 +6476,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "\n.buttons-group[data-v-38048495]{\n    display: flex;\n    flex-direction: column;\n}\n.btn[data-v-38048495]{\n    margin-bottom: 2px;\n}\n.panel-body p[data-v-38048495]{\n    height:50px;\n    min-height: 50px;\n    overflow: hidden;\n}\n.panel-body.full_text p[data-v-38048495]{\n    height: auto;\n}\n\n", ""]);
+exports.push([module.i, "\n.buttons-group[data-v-38048495] {\n    display: flex;\n    flex-direction: column;\n}\n.btn[data-v-38048495] {\n    margin-bottom: 2px;\n}\n.panel-body p[data-v-38048495] {\n    height: 50px;\n    min-height: 50px;\n    overflow: hidden;\n}\n.panel-body.full_text p[data-v-38048495] {\n    height: auto;\n}\n\n", ""]);
 
 // exports
 
@@ -37701,7 +37708,18 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c("nav", { staticClass: "navbar navbar-findcond" }, [
     _c("div", { staticClass: "container" }, [
-      _vm._m(0),
+      _c(
+        "div",
+        { staticClass: "navbar-header" },
+        [
+          _c(
+            "router-link",
+            { staticClass: "navbar-brand", attrs: { to: "/" } },
+            [_vm._v("Home")]
+          )
+        ],
+        1
+      ),
       _vm._v(" "),
       _c(
         "div",
@@ -37800,18 +37818,7 @@ var render = function() {
     ])
   ])
 }
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "navbar-header" }, [
-      _c("a", { staticClass: "navbar-brand", attrs: { href: "/" } }, [
-        _vm._v("Posts")
-      ])
-    ])
-  }
-]
+var staticRenderFns = []
 render._withStripped = true
 
 
@@ -54587,6 +54594,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "routes", function() { return routes; });
 /* harmony import */ var _components_Home_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../components/Home.vue */ "./resources/js/components/Home.vue");
 /* harmony import */ var _components_LoginForm_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../components/LoginForm.vue */ "./resources/js/components/LoginForm.vue");
+/* harmony import */ var _components_PostsComponent_vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../components/PostsComponent.vue */ "./resources/js/components/PostsComponent.vue");
+
 
 
 var routes = [{
@@ -54598,6 +54607,12 @@ var routes = [{
 }, {
   path: '/login',
   component: _components_LoginForm_vue__WEBPACK_IMPORTED_MODULE_1__["default"]
+}, {
+  path: '/posts',
+  component: _components_PostsComponent_vue__WEBPACK_IMPORTED_MODULE_2__["default"],
+  meta: {
+    requiresAuth: true
+  }
 }];
 
 /***/ }),
@@ -54619,8 +54634,7 @@ var user = Object(_helpers_auth__WEBPACK_IMPORTED_MODULE_0__["getLocalUser"])();
     currentUser: user,
     isLoggedIn: !!user,
     loading: false,
-    auth_error: [],
-    posts: []
+    auth_error: []
   },
   getters: {
     isLoading: function isLoading(state) {
@@ -54634,9 +54648,6 @@ var user = Object(_helpers_auth__WEBPACK_IMPORTED_MODULE_0__["getLocalUser"])();
     },
     authError: function authError(state) {
       return state.auth_error;
-    },
-    posts: function posts(state) {
-      return state.posts;
     }
   },
   mutations: {

@@ -7,6 +7,8 @@ use App\Post;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Auth;
+use Tymon\JWTAuth\JWTAuth;
 
 
 class PostController extends Controller
@@ -16,9 +18,8 @@ class PostController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-
         return PostResource::collection(Post::latest()->paginate(20));
     }
 

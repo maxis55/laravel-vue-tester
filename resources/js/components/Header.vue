@@ -2,7 +2,7 @@
     <nav class="navbar navbar-findcond">
         <div class="container">
             <div class="navbar-header">
-                <a class="navbar-brand" href="/">Posts</a>
+                <router-link class="navbar-brand" to="/">Home</router-link>
             </div>
             <div class="collapse navbar-collapse" id="navbar">
                 <ul class="nav navbar-nav navbar-right">

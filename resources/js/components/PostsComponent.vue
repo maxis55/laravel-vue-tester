@@ -26,41 +26,49 @@
 </template>
 
 
-
 <script>
     export default {
+        name: 'posts',
         data() {
             return {
                 posts: [],
-                next_page:1,
-                next_page_link:'',
-                last_page:2,
+                next_page: 1,
+                next_page_link: '',
+                last_page: 2,
                 endpoint: '/api/posts',
             };
         },
 
-        computed:{
-            hideMore: function(){
-                return this.next_page>this.last_page;
+        computed: {
+            hideMore: function () {
+                return this.next_page > this.last_page;
+            },
+            currentUser(){
+                return this.$store.getters.currentUser;
             }
         },
 
-        created() {
+        mounted() {
             this.fetch();
         },
 
         methods: {
             fetch() {
-                axios.get(this.endpoint+'?page='+this.next_page)
+
+                axios.get(this.endpoint + '?page=' + this.next_page, {
+                    headers: {
+                        "Authorization": 'Bearer ' + this.currentUser.access_token
+                    }
+                })
                     .then(
                         ({data}) => {
-                            let vm=this;
+                            let vm = this;
 
                             vm.posts = vm.posts.concat(data.data);
 
                             vm.last_page = data.meta.last_page;
                             vm.next_page_link = data.links.next;
-                            vm.next_page = data.meta.current_page+1;
+                            vm.next_page = data.meta.current_page + 1;
 
                         }
                     );
@@ -70,9 +78,9 @@
                     axios.delete(this.endpoint + '/' + id)
                         .then(
                             ({data}) => {
-                                if ('Success' === data){
+                                if ('Success' === data) {
                                     this.removePost(id)
-                                }else{
+                                } else {
                                     alert(data);
                                 }
                             }
@@ -90,7 +98,7 @@
                 // that is not child of array/object prop
                 this.$set(post, 'full_text', !post.full_text);
             },
-            loadMore:function () {
+            loadMore: function () {
                 this.fetch();
             }
 
@@ -99,19 +107,22 @@
 </script>
 
 <style scoped>
-    .buttons-group{
+    .buttons-group {
         display: flex;
         flex-direction: column;
     }
-    .btn{
+
+    .btn {
         margin-bottom: 2px;
     }
-    .panel-body p{
-        height:50px;
+
+    .panel-body p {
+        height: 50px;
         min-height: 50px;
         overflow: hidden;
     }
-    .panel-body.full_text p{
+
+    .panel-body.full_text p {
         height: auto;
     }
 
