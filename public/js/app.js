@@ -2158,6 +2158,7 @@ __webpack_require__.r(__webpack_exports__);
     fetch: function fetch() {
       var _this = this;
 
+      console.log('amyt');
       axios.get(this.endpoint + '?page=' + this.next_page, {
         headers: {
           "Authorization": 'Bearer ' + this.currentUser.access_token
@@ -2169,6 +2170,8 @@ __webpack_require__.r(__webpack_exports__);
         vm.last_page = data.meta.last_page;
         vm.next_page_link = data.links.next;
         vm.next_page = data.meta.current_page + 1;
+      }).catch(function (error) {
+        console.log(error);
       });
     },
     deletePost: function deletePost(id) {
@@ -54571,7 +54574,7 @@ function initialize(store, router) {
     }
   });
   axios.interceptors.response.use(null, function (error) {
-    if (error.resposne.status == 401) {
+    if (error.response.status === 401) {
       store.commit('logout');
       router.push('/login');
     }

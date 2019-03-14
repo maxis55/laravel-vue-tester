@@ -16,11 +16,13 @@ class PostController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
      */
-    public function index(Request $request)
+    public function index()
     {
-        return PostResource::collection(Post::latest()->paginate(20));
+        return PostResource::collection(
+            Auth::guard('api')->user()->posts()->latest()->paginate(20)
+        );
     }
 
     public function store(Request $request){

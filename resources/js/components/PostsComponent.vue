@@ -54,7 +54,7 @@
 
         methods: {
             fetch() {
-
+                console.log('amyt');
                 axios.get(this.endpoint + '?page=' + this.next_page, {
                     headers: {
                         "Authorization": 'Bearer ' + this.currentUser.access_token
@@ -71,7 +71,11 @@
                             vm.next_page = data.meta.current_page + 1;
 
                         }
-                    );
+                    ).catch(
+                    (error) => {
+                        console.log(error);
+                    }
+                );
             },
             deletePost: function (id) {
                 if (confirm('Are you sure you want to delete this post?')) {
