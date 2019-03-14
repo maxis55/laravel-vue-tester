@@ -1800,6 +1800,9 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'app-header',
   methods: {
@@ -2174,7 +2177,11 @@ __webpack_require__.r(__webpack_exports__);
     onSubmit: function onSubmit() {
       var _this = this;
 
-      axios.post(this.endpoint, this.post).then(function (_ref) {
+      axios.post(this.endpoint, this.post, {
+        headers: {
+          "Authorization": 'Bearer ' + this.currentUser.access_token
+        }
+      }).then(function (_ref) {
         var data = _ref.data;
         return _this.setSuccessMessage(data);
       }).catch(function (_ref2) {
@@ -2199,6 +2206,11 @@ __webpack_require__.r(__webpack_exports__);
         name: null,
         content: null
       };
+    }
+  },
+  computed: {
+    currentUser: function currentUser() {
+      return this.$store.getters.currentUser;
     }
   }
 });
@@ -37757,6 +37769,16 @@ var render = function() {
                       [
                         _c("router-link", { attrs: { to: "/posts" } }, [
                           _vm._v("Posts")
+                        ])
+                      ],
+                      1
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "li",
+                      [
+                        _c("router-link", { attrs: { to: "/posts/create" } }, [
+                          _vm._v("New post")
                         ])
                       ],
                       1

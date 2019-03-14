@@ -19,6 +19,9 @@
                         <li>
                             <router-link to="/posts">Posts</router-link>
                         </li>
+                        <li>
+                            <router-link to="/posts/create">New post</router-link>
+                        </li>
                         <li class="nav-item dropdown">
                             <a id="navbarDropDown" class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" aria-expanded="false" aria-haspopup="true">
                                 {{currentUser.name}} <span class="caret"></span>

@@ -61,7 +61,12 @@
         },
         methods: {
             onSubmit() {
-                axios.post(this.endpoint, this.post)
+
+                axios.post(this.endpoint, this.post, {
+                    headers: {
+                        "Authorization": 'Bearer ' + this.currentUser.access_token
+                    }
+                })
                     .then(({data}) => this.setSuccessMessage(data))
                     .catch(({response}) => this.setErrors(response));
             },
@@ -86,6 +91,11 @@
                 this.post = {name: null, content: null};
 
             }
-        }
+        },
+        computed: {
+            currentUser(){
+                return this.$store.getters.currentUser;
+            }
+        },
     }
 </script>

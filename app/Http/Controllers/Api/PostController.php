@@ -32,7 +32,7 @@ class PostController extends Controller
             'content' => 'required|min:3'
         ]);
 
-        $created_post = Post::create($post);
+        $created_post = Auth::guard('api')->user()->posts()->create($post);
 
         return new PostResource($created_post);
     }
