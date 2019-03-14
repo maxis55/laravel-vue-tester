@@ -38301,49 +38301,51 @@ var render = function() {
           ),
           _vm._v(" "),
           _c("div", { staticClass: "panel-footer" }, [
-            _c("div", { staticClass: "buttons-group" }, [
-              _c(
-                "a",
-                {
-                  staticClass: "btn btn-info mb-2",
-                  attrs: { href: "javascript:void(0)", type: "button" },
-                  on: {
-                    click: function($event) {
-                      $event.preventDefault()
-                      return _vm.showPost(single_post)
+            _c(
+              "div",
+              { staticClass: "buttons-group" },
+              [
+                _c(
+                  "a",
+                  {
+                    staticClass: "btn btn-info mb-2",
+                    attrs: { href: "javascript:void(0)", type: "button" },
+                    on: {
+                      click: function($event) {
+                        $event.preventDefault()
+                        return _vm.showPost(single_post)
+                      }
                     }
-                  }
-                },
-                [_vm._v("Show full text")]
-              ),
-              _vm._v(" "),
-              _c(
-                "a",
-                {
-                  staticClass: "btn btn-warning mb-2",
-                  attrs: {
-                    href: "/posts/" + single_post.id + "/edit",
-                    type: "button"
-                  }
-                },
-                [_vm._v("Edit")]
-              ),
-              _vm._v(" "),
-              _c(
-                "a",
-                {
-                  staticClass: "btn btn-danger mb-2",
-                  attrs: { href: "javascript:void(0)", type: "button" },
-                  on: {
-                    click: function($event) {
-                      $event.preventDefault()
-                      return _vm.deletePost(single_post.id)
+                  },
+                  [_vm._v("Show full text")]
+                ),
+                _vm._v(" "),
+                _c(
+                  "router-link",
+                  {
+                    staticClass: "btn btn-warning mb-2",
+                    attrs: { to: "/posts/" + single_post.id + "/edit" }
+                  },
+                  [_vm._v("Edit")]
+                ),
+                _vm._v(" "),
+                _c(
+                  "a",
+                  {
+                    staticClass: "btn btn-danger mb-2",
+                    attrs: { href: "javascript:void(0)", type: "button" },
+                    on: {
+                      click: function($event) {
+                        $event.preventDefault()
+                        return _vm.deletePost(single_post.id)
+                      }
                     }
-                  }
-                },
-                [_vm._v("Delete")]
-              )
-            ])
+                  },
+                  [_vm._v("Delete")]
+                )
+              ],
+              1
+            )
           ])
         ])
       }),

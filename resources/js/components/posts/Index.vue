@@ -12,7 +12,7 @@
                 <div class="buttons-group">
                     <a @click.prevent="showPost(single_post)" href="javascript:void(0)" type="button"
                        class="btn btn-info mb-2">Show full text</a>
-                    <a :href="'/posts/'+single_post.id+'/edit'" type="button" class="btn btn-warning mb-2">Edit</a>
+                    <router-link :to="'/posts/'+single_post.id+'/edit'" class="btn btn-warning mb-2" >Edit</router-link>
                     <a @click.prevent="deletePost(single_post.id)" href="javascript:void(0)" type="button"
                        class="btn btn-danger mb-2">Delete</a>
                 </div>
