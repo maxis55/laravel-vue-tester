@@ -50,16 +50,19 @@
 
         mounted() {
             this.fetch();
+
         },
 
         methods: {
             fetch() {
-                console.log('amyt');
-                axios.get(this.endpoint + '?page=' + this.next_page, {
-                    headers: {
-                        "Authorization": 'Bearer ' + this.currentUser.access_token
+
+                axios.get(this.endpoint + '?page=' + this.next_page,
+                    {
+                        headers: {
+                            "Authorization": 'Bearer ' + this.currentUser.access_token
+                        }
                     }
-                })
+                )
                     .then(
                         ({data}) => {
                             let vm = this;
@@ -79,7 +82,13 @@
             },
             deletePost: function (id) {
                 if (confirm('Are you sure you want to delete this post?')) {
-                    axios.delete(this.endpoint + '/' + id)
+                    axios.delete(this.endpoint + '/' + id,
+                        {
+                            headers: {
+                                "Authorization": 'Bearer ' + this.currentUser.access_token
+                            }
+                        }
+                    )
                         .then(
                             ({data}) => {
                                 if ('Success' === data) {

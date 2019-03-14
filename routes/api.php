@@ -20,7 +20,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 
 Route::resource('posts', 'Api\PostController')
-    ->except(['edit', 'create']);
+    ->except(['edit', 'create'])->middleware('jwt.auth');
 
 Route::group([
     'middleware'=>'jwt.auth'

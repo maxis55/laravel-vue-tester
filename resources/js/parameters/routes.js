@@ -1,6 +1,8 @@
 import Home from '../components/Home.vue';
 import LoginForm from '../components/LoginForm.vue';
-import Posts from '../components/PostsComponent.vue';
+import PostMain from '../components/posts/Main.vue';
+import Posts from '../components/posts/Index.vue';
+import PostCreateForm from '../components/posts/PostCreateForm.vue';
 export const routes = [
     {
         path: '/',
@@ -15,10 +17,20 @@ export const routes = [
     },
     {
         path:'/posts',
-        component: Posts,
+        component: PostMain,
         meta:{
             requiresAuth:true
-        }
+        },
+        children: [
+            {
+                path: '/',
+                component: Posts
+            },
+            {
+                path: 'create',
+                component: PostCreateForm
+            },
+        ]
     }
 
 ];

@@ -13,8 +13,6 @@ import {routes} from "./parameters/routes";
 import {initialize} from "./helpers/init";
 import StoreData from './parameters/store';
 import MainApp from "./components/Main.vue";
-import Posts from "./components/PostsComponent.vue";
-import PostForm from "./components/PostForm.vue"
 
 
 Vue.use(VueRouter);
