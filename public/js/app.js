@@ -38287,7 +38287,7 @@ var render = function() {
       _vm._l(_vm.posts, function(single_post) {
         return _c("div", { staticClass: "panel panel-primary" }, [
           _c("div", { staticClass: "panel-heading" }, [
-            _c("h2", [_vm._v(_vm._s(single_post.name))]),
+            _c("h2", [_vm._v(_vm._s(single_post.name + " " + single_post.id))]),
             _vm._v("Published " + _vm._s(single_post.date) + "\n        ")
           ]),
           _vm._v(" "),

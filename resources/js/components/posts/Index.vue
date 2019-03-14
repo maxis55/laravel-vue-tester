@@ -2,7 +2,7 @@
     <div>
         <div class="panel panel-primary" v-for="single_post in posts">
             <div class="panel-heading">
-                <h2>{{single_post.name}}</h2>Published {{single_post.date}}
+                <h2>{{single_post.name+' '+single_post.id}}</h2>Published {{single_post.date}}
             </div>
             <div :class="{full_text:single_post.full_text}" class="panel-body">
                 <p> {{single_post.content}}</p>
