@@ -8271,6 +8271,7 @@ nav.navbar-findcond ul.navbar-nav a {
 nav.navbar-findcond ul.navbar-nav a:hover {
   background: #fff;
   border-color: #f14444;
+  text-decoration: none;
 }
 
 nav.navbar-findcond ul.navbar-nav a:visited {
