@@ -7,7 +7,7 @@
         <div class="well well-sm" id="post-form">
             <form class="form-horizontal" method="post" @submit.prevent="onSubmit">
                 <fieldset>
-                    <legend class="text-center">{{title}}</legend>
+                    <legend class="text-center">Edit post {{initial_name}}</legend>
 
                     <div class="form-group">
                         <label class="col-md-3 control-label" for="name">Name</label>
@@ -52,52 +52,54 @@
             return {
                 errors: [],
                 saved: false,
-                post: this.initialPost,
+                post: {
+                    name: '',
+                    content: '',
+                },
+                initial_name: '',
                 endpoint: '/api/posts',
             };
         },
-        props:{
-            initialPost:{
-                type:Object,
-                default:function(){
-                    return {
-                        name:'',
-                        content:'',
-                    }
+        mounted(){
+
+            axios.get(this.endpoint + '/' + this.$route.params.id, {
+                headers: {
+                    "Authorization": 'Bearer ' + this.currentUser.access_token
                 }
-            },
-            newPost:{
-                type:Boolean,
-                default:'edit' !== window.location.href.split('/').pop()
-            },
-            title:{
-                type:String,
-                default:'Create post'
-            }
+            })
+                .then(({data}) => {
+                    this.post = data.data;
+                    this.initial_name = this.post.name;
+                })
+                .catch(({response}) => {
+                    if (response.status === 404) {
+                        this.$router.push('/posts')
+                    }
+                });
+
         },
         methods: {
             onSubmit() {
                 //if set variable that its new post, or if link doesn't have edit on the end
-                if( this.newPost ){
-                    axios.post(this.endpoint, this.post)
-                        .then(({data}) => this.setSuccessMessage(data))
-                        .catch(({response}) => this.setErrors(response));
-                }else{
-                    axios.patch(this.endpoint+'/'+this.initialPost.id, this.post)
-                        .then(({data}) => this.setSuccessMessage(data))
-                        .catch(({response}) => this.setErrors(response));
-                }
+
+                axios.patch(this.endpoint + '/' + this.post.id, this.post, {
+                    headers: {
+                        "Authorization": 'Bearer ' + this.currentUser.access_token
+                    }
+                })
+                    .then(({data}) => this.setSuccessMessage(data))
+                    .catch(({response}) => this.setErrors(response));
 
             },
 
             setErrors(response) {
-                this.saved=false;
+                this.saved = false;
                 this.errors = response.data.errors;
             },
 
             setSuccessMessage(data) {
                 //set current post to answered post in case there is changes on back-end
-                this.post=data.data;
+                this.post = data.data;
 
                 this.reset();
                 this.saved = true;
@@ -105,11 +107,12 @@
 
             reset() {
                 this.errors = [];
-                console.log(this.newPost);
-                if( this.newPost ){
-                    this.post = {name: null, content: null};
-                }
             }
-        }
+        },
+        computed: {
+            currentUser(){
+                return this.$store.getters.currentUser;
+            }
+        },
     }
 </script>

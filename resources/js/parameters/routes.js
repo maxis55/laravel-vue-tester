@@ -3,6 +3,7 @@ import LoginForm from '../components/LoginForm.vue';
 import PostMain from '../components/posts/Main.vue';
 import Posts from '../components/posts/Index.vue';
 import PostCreateForm from '../components/posts/PostCreateForm.vue';
+import PostEditForm from '../components/posts/PostEditForm.vue';
 export const routes = [
     {
         path: '/',
@@ -30,6 +31,10 @@ export const routes = [
                 path: 'create',
                 component: PostCreateForm
             },
+            {
+                path:':id/edit',
+                component:PostEditForm
+            }
         ]
     }
 
