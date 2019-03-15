@@ -33,15 +33,15 @@ class AuthController extends Controller
 
         $credentials = request([$this->username(), 'password']);
 
-        $guard=auth('api');
+        $guard = auth('api');
 
-        if($request->input('remember')){
+        if ($request->input('remember')) {
             $guard->setTTL(72);
             // if "remember" is checked, then increase expire time
             // minutes
         }
 
-        if (! $token = $guard->attempt($credentials)) {
+        if (!$token = $guard->attempt($credentials)) {
             return $this->sendFailedLoginResponse($request);
         }
 
@@ -91,7 +91,7 @@ class AuthController extends Controller
     {
         return response()->json([
             'access_token' => $token,
-            'user'=>auth('api')->user(),
+            'user' => auth('api')->user(),
             'token_type' => 'bearer',
             'expires_in' => auth('api')->factory()->getTTL() * 60
         ]);
@@ -101,7 +101,7 @@ class AuthController extends Controller
     /**
      * Get the failed login response instance.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Request $request
      * @return \Symfony\Component\HttpFoundation\Response
      *
      * @throws \Illuminate\Validation\ValidationException
@@ -114,7 +114,8 @@ class AuthController extends Controller
     }
 
 
-    protected function username(){
+    protected function username()
+    {
         return 'email';
     }
 }
