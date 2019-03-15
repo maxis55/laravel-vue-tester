@@ -2028,11 +2028,7 @@ __webpack_require__.r(__webpack_exports__);
     fetch: function fetch() {
       var _this = this;
 
-      axios.get(this.endpoint + '?page=' + this.next_page, {
-        headers: {
-          "Authorization": 'Bearer ' + this.currentUser.access_token
-        }
-      }).then(function (_ref) {
+      axios.get(this.endpoint + '?page=' + this.next_page).then(function (_ref) {
         var data = _ref.data;
         var vm = _this;
         vm.posts = vm.posts.concat(data.data);
@@ -2177,11 +2173,7 @@ __webpack_require__.r(__webpack_exports__);
     onSubmit: function onSubmit() {
       var _this = this;
 
-      axios.post(this.endpoint, this.post, {
-        headers: {
-          "Authorization": 'Bearer ' + this.currentUser.access_token
-        }
-      }).then(function (_ref) {
+      axios.post(this.endpoint, this.post).then(function (_ref) {
         var data = _ref.data;
         return _this.setSuccessMessage(data);
       }).catch(function (_ref2) {
@@ -2310,11 +2302,7 @@ __webpack_require__.r(__webpack_exports__);
       var _this2 = this;
 
       //if set variable that its new post, or if link doesn't have edit on the end
-      axios.patch(this.endpoint + '/' + this.post.id, this.post, {
-        headers: {
-          "Authorization": 'Bearer ' + this.currentUser.access_token
-        }
-      }).then(function (_ref3) {
+      axios.patch(this.endpoint + '/' + this.post.id, this.post).then(function (_ref3) {
         var data = _ref3.data;
         return _this2.setSuccessMessage(data);
       }).catch(function (_ref4) {
@@ -55124,14 +55112,20 @@ function initialize(store, router) {
       }
     }
   });
-  window.axios.interceptors.response.use(null, function (error) {
-    if (error.response.status === 401) {
-      store.commit('logout');
-      router.push('/login');
-    }
-
-    return Promise.reject(error);
+  window.axios.interceptors.response.use(null, function (error) {// if (error.response.status === 401) {
+    //     store.commit('logout');
+    //     router.push('/login');
+    // }
+    // return Promise.reject(error);
   });
+
+  if (store.getters.currentUser) {
+    setAuthorization(store.getters.currentUser.access_token);
+  }
+}
+
+function setAuthorization(token) {
+  window.axios.defaults.headers.common["Authorization"] = "Bearer ".concat(token);
 }
 
 /***/ }),

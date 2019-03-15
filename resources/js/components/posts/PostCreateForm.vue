@@ -62,11 +62,7 @@
         methods: {
             onSubmit() {
 
-                axios.post(this.endpoint, this.post, {
-                    headers: {
-                        "Authorization": 'Bearer ' + this.currentUser.access_token
-                    }
-                })
+                axios.post(this.endpoint, this.post)
                     .then(({data}) => this.setSuccessMessage(data))
                     .catch(({response}) => this.setErrors(response));
             },

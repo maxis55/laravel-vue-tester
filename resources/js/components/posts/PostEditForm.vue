@@ -82,11 +82,7 @@
             onSubmit() {
                 //if set variable that its new post, or if link doesn't have edit on the end
 
-                axios.patch(this.endpoint + '/' + this.post.id, this.post, {
-                    headers: {
-                        "Authorization": 'Bearer ' + this.currentUser.access_token
-                    }
-                })
+                axios.patch(this.endpoint + '/' + this.post.id, this.post)
                     .then(({data}) => this.setSuccessMessage(data))
                     .catch(({response}) => this.setErrors(response));
 

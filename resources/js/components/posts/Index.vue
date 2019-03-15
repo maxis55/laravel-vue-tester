@@ -56,12 +56,7 @@
         methods: {
             fetch() {
 
-                axios.get(this.endpoint + '?page=' + this.next_page,
-                    {
-                        headers: {
-                            "Authorization": 'Bearer ' + this.currentUser.access_token
-                        }
-                    }
+                axios.get(this.endpoint + '?page=' + this.next_page
                 )
                     .then(
                         ({data}) => {
