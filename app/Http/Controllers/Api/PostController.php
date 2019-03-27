@@ -2,13 +2,11 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Http\Controllers\Controller;
 use App\Http\Resources\PostResource;
 use App\Post;
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
-use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
-use Tymon\JWTAuth\JWTAuth;
 
 
 class PostController extends Controller
@@ -25,10 +23,11 @@ class PostController extends Controller
         );
     }
 
-    public function store(Request $request){
+    public function store(Request $request)
+    {
 
         $post = $this->validate($request, [
-            'name' => 'required|min:3|max:50',
+            'name'    => 'required|min:3|max:50',
             'content' => 'required|min:3'
         ]);
 
@@ -41,11 +40,11 @@ class PostController extends Controller
     public function update(Request $request, Post $post)
     {
         $this->validate($request, [
-            'name' => 'required|min:3|max:50',
+            'name'    => 'required|min:3|max:50',
             'content' => 'required|min:3'
         ]);
 
-        $post->update($request->only(['name','content']));
+        $post->update($request->only(['name', 'content']));
         $post->save();
 
         return new PostResource($post);
@@ -55,7 +54,8 @@ class PostController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Post  $post
+     * @param  \App\Post $post
+     *
      * @return \Illuminate\Http\Response
      */
     public function destroy(Post $post)
@@ -70,7 +70,8 @@ class PostController extends Controller
         return response()->json('Success');
     }
 
-    public function show(Post $post){
+    public function show(Post $post)
+    {
         return new PostResource($post);
     }
 }
