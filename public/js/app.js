@@ -55089,12 +55089,13 @@ function getLocalUser() {
 /*!**************************************!*\
   !*** ./resources/js/helpers/init.js ***!
   \**************************************/
-/*! exports provided: initialize */
+/*! exports provided: initialize, setAuthorization */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "initialize", function() { return initialize; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "setAuthorization", function() { return setAuthorization; });
 function initialize(store, router) {
   router.beforeEach(function (to, from, next) {
     var requiresAuth = to.matched.some(function (record) {
@@ -55112,18 +55113,19 @@ function initialize(store, router) {
       }
     }
   });
-  window.axios.interceptors.response.use(null, function (error) {// if (error.response.status === 401) {
-    //     store.commit('logout');
-    //     router.push('/login');
-    // }
-    // return Promise.reject(error);
+  window.axios.interceptors.response.use(null, function (error) {
+    if (error.response.status === 401) {
+      store.commit('logout');
+      router.push('/login');
+    }
+
+    return Promise.reject(error);
   });
 
   if (store.getters.currentUser) {
     setAuthorization(store.getters.currentUser.access_token);
   }
 }
-
 function setAuthorization(token) {
   window.axios.defaults.headers.common["Authorization"] = "Bearer ".concat(token);
 }
@@ -55191,6 +55193,8 @@ var routes = [{
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _helpers_auth__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../helpers/auth */ "./resources/js/helpers/auth.js");
+/* harmony import */ var _helpers_init__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../helpers/init */ "./resources/js/helpers/init.js");
+
 
 var user = Object(_helpers_auth__WEBPACK_IMPORTED_MODULE_0__["getLocalUser"])();
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -55226,6 +55230,7 @@ var user = Object(_helpers_auth__WEBPACK_IMPORTED_MODULE_0__["getLocalUser"])();
       state.currentUser = Object.assign({}, payload.user, {
         access_token: payload.access_token
       });
+      Object(_helpers_init__WEBPACK_IMPORTED_MODULE_1__["setAuthorization"])(payload.access_token);
       localStorage.setItem('user', JSON.stringify(state.currentUser));
     },
     loginFailed: function loginFailed(state, payload) {
@@ -55265,8 +55270,8 @@ var user = Object(_helpers_auth__WEBPACK_IMPORTED_MODULE_0__["getLocalUser"])();
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! E:\OSPanel\domains\laravel-vue-tester\resources\js\app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! E:\OSPanel\domains\laravel-vue-tester\resources\sass\app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! E:\Programs\OpenServer\OSPanel\domains\laravel-vue-tester\resources\js\app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! E:\Programs\OpenServer\OSPanel\domains\laravel-vue-tester\resources\sass\app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

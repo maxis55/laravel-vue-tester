@@ -1,5 +1,5 @@
 import {getLocalUser} from "../helpers/auth";
-
+import {setAuthorization} from '../helpers/init';
 const user = getLocalUser();
 
 export default {
@@ -34,6 +34,8 @@ export default {
             state.loading = false;
 
             state.currentUser = Object.assign({}, payload.user, {access_token: payload.access_token});
+
+            setAuthorization(payload.access_token);
 
             localStorage.setItem('user', JSON.stringify(state.currentUser));
         },
